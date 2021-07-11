@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body style="height: 100vh; margin: 0; background-color: black">
+
+  <script src="build/stars.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js'></script>
+  <script>
+      const gui = new dat.GUI();
+      let PARAMETERS = {
+          density: 0.25,
+          width: 600,
+          height: 600,
+          size: 1,
+          red: true,
+          blue: true,
+          white: true,
+          animated: false
+      }
+      const draw = () => {
+          stars(document.body, PARAMETERS.density, {
+              red: PARAMETERS.red,
+              blue: PARAMETERS.blue,
+              white: PARAMETERS.white,
+              width: PARAMETERS.width,
+              height: PARAMETERS.height,
+              animated: PARAMETERS.animated,
+              size: PARAMETERS.size
+          });
+      };
+      const controllers = [];
+      controllers.push(gui.add(PARAMETERS, "density", 0, 1, 0.01));
+      controllers.push(gui.add(PARAMETERS, "width", 0, window.innerWidth, 1));
+      controllers.push(gui.add(PARAMETERS, "height", 0, window.innerHeight, 1));
+      controllers.push(gui.add(PARAMETERS, "size", 0, 20, 1));
+      controllers.push(gui.add(PARAMETERS, "red"));
+      controllers.push(gui.add(PARAMETERS, "blue"));
+      controllers.push(gui.add(PARAMETERS, "white"));
+      controllers.push(gui.add(PARAMETERS, "animated"));
+      controllers.forEach(c => c.onChange(() => {
+          draw();
+      }));
+      draw();
+  </script>
+</body>
+</html>
