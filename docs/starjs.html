@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>AlasDiablo SpaceJS - StarJS</title>
 </head>
 <body style="height: 100vh; margin: 0; background-color: black">
 
-  <script src="build/stars.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/alasdiablo/spacejs@1.0.0/build/stars.js"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js'></script>
   <script>
       const gui = new dat.GUI();
@@ -39,7 +39,7 @@
       controllers.push(gui.add(PARAMETERS, "red"));
       controllers.push(gui.add(PARAMETERS, "blue"));
       controllers.push(gui.add(PARAMETERS, "white"));
-      controllers.push(gui.add(PARAMETERS, "animated"));
+      //controllers.push(gui.add(PARAMETERS, "animated"));
       controllers.forEach(c => c.onChange(() => {
           draw();
       }));
