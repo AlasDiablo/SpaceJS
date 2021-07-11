@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "A collection of js file who use canvas for creating space background",
   "scripts": {
-    "build": "babel src -d build"
+    "build:dev": "babel src -d dist --copy-files",
+    "build:min": "BABEL_ENV=minify babel src -d dist --out-file-extension .min.js",
+    "build": "npm run build:dev && npm run build:min"
   },
   "repository": {
     "type": "git",
