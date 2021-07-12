@@ -64,7 +64,7 @@ function stars(htmlElement, density, { red, blue, white, width, height, animated
 
         return {
             x: getRandomInRange(0, widthIn),
-            y: getRandomInRange(0, widthIn)
+            y: getRandomInRange(0, heightIn)
         };
     };
 

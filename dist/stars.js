@@ -89,7 +89,7 @@ function stars(htmlElement, density) {
 
     return {
       x: getRandomInRange(0, widthIn),
-      y: getRandomInRange(0, widthIn)
+      y: getRandomInRange(0, heightIn)
     };
   };
 
