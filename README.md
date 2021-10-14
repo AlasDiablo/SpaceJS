@@ -51,7 +51,7 @@ stars(
 
 Add stars to your html file:
 ```html
-<script src="https://cdn.jsdelivr.net/gh/alasdiablo/spacejs@1.0.2/dist/stars.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/alasdiablo/spacejs@1.0.3/dist/stars.min.js"></script>
 ```
 
 ### Download | Mirror
