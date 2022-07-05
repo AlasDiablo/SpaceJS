@@ -48,15 +48,14 @@ SpaceJS.createStars(
 );
 ```
 
-Add stars to your html file:
-```html
-<script src="https://cdn.jsdelivr.net/gh/alasdiablo/spacejs@2.0.0/dist/stars.min.js"></script>
-```
-
 ### Download | Mirror
 
 - [jsDelivr](https://www.jsdelivr.com/package/gh/alasdiablo/spacejs)
 - [Github](https://github.com/AlasDiablo/SpaceJS/releases)
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/alasdiablo/spacejs@2.0.0/dist/space.min.js"></script>
+```
 
 ## Contributing
 
