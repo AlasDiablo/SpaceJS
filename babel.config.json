@@ -1,9 +1,0 @@
-{
-  "presets": ["@babel/preset-env"],
-  "env": {
-    "minify": {
-      "presets": ["@babel/preset-env", ["minify"]],
-      "comments": false
-    }
-  }
-}

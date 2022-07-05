@@ -1,24 +1,5 @@
-// MIT License
-//
-// Copyright (c) 2021 AlasDiablo
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+// eslint-disable-next-line import/named
+import { get, getRandomPos } from './utils';
 
 class Star {
     constructor(pos, size, color) {
@@ -28,87 +9,94 @@ class Star {
     }
 
     render(ctx) {
-        ctx.fillStyle = `rgba(${this.color.red}, ${this.color.green}, ${this.color.blue}, ${0.7}`;
-        ctx.fillRect(this.pos.x, this.pos.y, this.size, this.size);
-    }
-
-    dynamicRender(ctx, delta) {
-        ctx.fillStyle = `rgba(${this.color.red}, ${this.color.green}, ${this.color.blue}, ${0.7 + delta}`;
+        ctx.fillStyle = `rgba(${this.color.red}, ${this.color.green}, ${this.color.blue}, ${0.7})`;
         ctx.fillRect(this.pos.x, this.pos.y, this.size, this.size);
     }
 }
 
-// eslint-disable-next-line no-unused-vars
-function stars(htmlElement, density, { red, blue, white, width, height, animated, size } = {}) {
-    const get = (target, defaultValue) => (target !== undefined) ? target : defaultValue;
+const createStar = (selector, pos, size, white, blue, red) => {
+    // white
+    if (selector >= white.lower && selector <= white.upper && white.enable) {
+        const color = Math.floor((Math.random() * 255) + 1);
+        return new Star(pos, size, { red: color, green: color, blue: color });
+    }
 
+    // blue
+    if (selector >= blue.lower && selector <= blue.upper && blue.enable) {
+        const color = Math.floor((Math.random() * 255) + 1);
+        return new Star(pos, size, { red: 0, green: 0, blue: color });
+    }
+
+    // red
+    if (selector >= red.lower && selector <= red.upper && red.enable) {
+        const color = Math.floor((Math.random() * 255) + 1);
+        return new Star(pos, size, { red: color, green: 0, blue: 0 });
+    }
+
+    return undefined;
+};
+
+/**
+ * Function use to create a background star on a specific html element
+ * @param elementId{!string} Html element id who receive the background
+ * @param density{!number} Density of star in the html element
+ * @param red{?boolean} (Optional, default: true) Enable red star
+ * @param blue{?boolean} (Optional, default: true) Enable blue star
+ * @param white{?boolean} (Optional, default: true) Enable white star
+ * @param width{?number} (Optional, default: html element width) Custom tile width
+ * @param height{?number} (Optional, default: html element height) Custom tile height
+ * @param size{?number} (Optional, default: 1) Star size in pixel
+ * @returns {number|NodeJS.Timeout}
+ */
+const createStars = (elementId, density, {
+    red, blue, white, width, height, size,
+} = {}) => {
     const redIn = get(red, true);
     const blueIn = get(blue, true);
     const whiteIn = get(white, true);
-    const boundingClientRect = htmlElement.getBoundingClientRect();
+    const element = document.getElementById(elementId);
+    const boundingClientRect = element.getBoundingClientRect();
     const widthIn = get(width, boundingClientRect.width);
     const heightIn = get(height, boundingClientRect.height);
     const sizeIn = get(size, 1);
-    // eslint-disable-next-line no-unused-vars
-    const animatedIn = get(animated, true);
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     canvas.width = widthIn;
     canvas.height = heightIn;
 
-    const getPos = () => {
-        const getRandomInRange = (from, to) => {
-            return Math.floor(Math.random() * (to - from) + from);
-        };
-
-        return {
-            x: getRandomInRange(0, widthIn),
-            y: getRandomInRange(0, heightIn)
-        };
-    };
-
-    const createStar = (colorSelector, white, blue, red) => {
-        // white
-        if (colorSelector >= white.lower && colorSelector <= white.upper && whiteIn) {
-            const color = Math.floor((Math.random() * 255) + 1);
-            const star = new Star(getPos(), sizeIn, { red: color, green: color, blue: color });
-            stars.push(star);
-        }
-        // blue
-        else if (colorSelector >= blue.lower & colorSelector <= blue.upper && blueIn) {
-            const color = Math.floor((Math.random() * 255) + 1);
-            const star = new Star(getPos(), sizeIn, { red: 0, green: 0, blue: color });
-            stars.push(star);
-        }
-        // red
-        else if (colorSelector >= red.lower && colorSelector <= red.upper && redIn) {
-            const color = Math.floor((Math.random() * 255) + 1);
-            const star = new Star(getPos(), sizeIn, { red: color, green: 0, blue: 0 });
-            stars.push(star);
-        }
-    };
-
     const stars = [];
 
-    for (let i = 0; i < ((widthIn + heightIn) / sizeIn) * density; i += sizeIn) {
+    const numberOfStar = ((widthIn + heightIn) / sizeIn) * density;
+
+    for (let i = 0; i < numberOfStar; i += sizeIn) {
         const whiteMinus = !whiteIn ? -20 : 0;
         const blueMinus = !blueIn ? -2 : 0;
         const redMinus = !redIn ? -2 : 0;
         const colorSelectorMinus = whiteMinus + blueMinus + redMinus;
         const colorSelector = Math.floor((Math.random() * (24 + colorSelectorMinus)) + 1);
-        createStar(
+        const star = createStar(
             colorSelector,
-            { lower: 1, upper: 20 },
-            { lower: 21 + whiteMinus, upper: 22 + whiteMinus },
-            { lower: 23 + whiteMinus + blueMinus, upper: 24 + whiteMinus + blueMinus }
+            getRandomPos(widthIn, heightIn),
+            sizeIn,
+            { lower: 1, upper: 20, enable: redIn },
+            { lower: 21 + whiteMinus, upper: 22 + whiteMinus, enable: blueIn },
+            {
+                lower: 23 + whiteMinus + blueMinus,
+                upper: 24 + whiteMinus + blueMinus,
+                enable: whiteIn,
+            },
         );
+        if (star !== undefined) {
+            stars.push(star);
+        }
     }
 
-    ctx.fillStyle = "black";
+    ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, widthIn, heightIn);
 
-    stars.forEach(star => star.render(ctx));
+    stars.forEach((star) => star.render(ctx));
+    element.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
+};
 
-    htmlElement.style.backgroundImage = `url(${canvas.toDataURL("image/png")})`;
-}
+export default createStars;

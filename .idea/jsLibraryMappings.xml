@@ -2,5 +2,6 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="PROJECT" libraries="{dat-gui, stars}" />
+    <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

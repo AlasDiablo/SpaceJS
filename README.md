@@ -36,22 +36,21 @@ Stars is a small script for adding a background star on a specific dom element.
 
 Add a star background to body:
 ```js
-stars(
-    document.body,     // Required: Target dom element
+SpaceJS.createStars(
+    'id-of-an-element',// Required: Target dom element
     0.25,              // Required: Density of star
     { red: true,       // Optional: Enable red star
       blue: true,      // Optional: Enable blue star
       white: true,     // Optional: Enable white star
       width: 600,      // Optional: Size of the canvas use as background
       height: 600,     // Optional: Size of the canvas use as background
-      animated: false, // Optional: Enable animation (currently in wip/not implemented)
       size: 1 }        // Optional: Size of a star
 );
 ```
 
 Add stars to your html file:
 ```html
-<script src="https://cdn.jsdelivr.net/gh/alasdiablo/spacejs@1.0.3/dist/stars.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/alasdiablo/spacejs@2.0.0/dist/stars.min.js"></script>
 ```
 
 ### Download | Mirror
